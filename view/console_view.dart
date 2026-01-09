@@ -7,7 +7,10 @@ import '../viewmodel/snake_view_model.dart';
 
 class ConsoleView {
   void renderBoard(SnakeViewModel viewModel) {
+    int n = 0;
     for (int i = 0; i < viewModel.boardModel.height; i++) {
+      n++;
+      stdout.write('$n ');
       for (int j = 0; j < viewModel.boardModel.width; j++) {
         if (j == 0 ||
             j == viewModel.boardModel.width - 1 ||
@@ -15,13 +18,13 @@ class ConsoleView {
             i == viewModel.boardModel.height - 1) {
           stdout.write('#');
           continue;
-        } else {
-          stdout.write(' ');
         }
 
         if (viewModel.snakeModel.head.x == j &&
             viewModel.snakeModel.head.y == i) {
           stdout.write('O');
+        } else {
+          stdout.write(' ');
         }
       }
       stdout.writeln();

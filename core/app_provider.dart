@@ -8,11 +8,11 @@ import '../viewmodel/snake_view_model.dart';
 import 'provider.dart';
 
 final boardProvider = Provider<BoardModel>(
-  () => BoardModel(height: 5, width: 10),
+  () => BoardModel(height: 8, width: 20),
 );
 
 final snakeProvider = Provider<SnakeModel>(
-  () => SnakeModel(head: PointModel(x: 2, y: 3)),
+  () => SnakeModel(head: PointModel(x: 4, y: 2)),
 );
 
 final snakeViewProvider = Provider<SnakeViewModel>(
