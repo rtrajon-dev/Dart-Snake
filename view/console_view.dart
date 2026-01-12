@@ -21,12 +21,25 @@ class ConsoleView {
           continue;
         }
 
-        if (viewModel.snakeModel.head.x == j &&
-            viewModel.snakeModel.head.y == i) {
-          stdout.write('O');
+        if (viewModel.snakeModel.body.any(
+          (point) => point.x == j && point.y == i,
+        )) {
+          if (viewModel.snakeModel.head.x == j &&
+              viewModel.snakeModel.head.y == i) {
+            stdout.write('O');
+          } else {
+            stdout.write('o');
+          }
         } else {
           stdout.write(' ');
         }
+
+        // if (viewModel.snakeModel.head.x == j &&
+        //     viewModel.snakeModel.head.y == i) {
+        //   stdout.write('O');
+        // } else {
+        //   stdout.write(' ');
+        // }
       }
       stdout.writeln();
     }

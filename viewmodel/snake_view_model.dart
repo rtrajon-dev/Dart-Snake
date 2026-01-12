@@ -10,6 +10,7 @@ import '../model/snake_model.dart';
 class SnakeViewModel {
   BoardModel boardModel;
   SnakeModel snakeModel;
+
   bool _gameOver = false;
   bool get isGameOver => _gameOver;
 
@@ -35,11 +36,15 @@ class SnakeViewModel {
         next = PointModel(x: current.x + 1, y: current.y);
         break;
     }
-    snakeModel.head = next;
+    // snakeModel.head = next;
 
+    //boundary check
     if (!boardModel.containsPoint(next.x, next.y)) {
       _gameOver = true;
       return;
     }
+
+    snakeModel.body.insert(0, next);
+    snakeModel.body.removeLast();
   }
 }

@@ -13,7 +13,11 @@ final boardProvider = Provider<BoardModel>(
 );
 
 final snakeProvider = Provider<SnakeModel>(
-  () => SnakeModel(head: PointModel(x: 4, y: 2)),
+  () => SnakeModel([
+    PointModel(x: 5, y: 3),
+    PointModel(x: 4, y: 3),
+    PointModel(x: 3, y: 3),
+  ]),
 );
 
 final snakeViewProvider = Provider<SnakeViewModel>(
