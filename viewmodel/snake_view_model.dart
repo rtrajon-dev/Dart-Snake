@@ -10,10 +10,14 @@ import '../model/snake_model.dart';
 class SnakeViewModel {
   BoardModel boardModel;
   SnakeModel snakeModel;
+  bool _gameOver = false;
+  bool get isGameOver => _gameOver;
 
   SnakeViewModel({required this.boardModel, required this.snakeModel});
 
   void moveSnake(DirectionModel direction) {
+    if (isGameOver) return;
+
     final current = snakeModel.head;
     PointModel next;
 
@@ -32,5 +36,10 @@ class SnakeViewModel {
         break;
     }
     snakeModel.head = next;
+
+    if (!boardModel.containsPoint(next.x, next.y)) {
+      _gameOver = true;
+      return;
+    }
   }
 }

@@ -8,4 +8,8 @@ class BoardModel {
   final int width;
 
   BoardModel({required this.height, required this.width});
+
+  bool containsPoint(int x, int y) {
+    return x >= 0 && x < width && y >= 0 && y < height;
+  }
 }
