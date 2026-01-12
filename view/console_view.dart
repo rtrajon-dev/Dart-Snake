@@ -13,6 +13,7 @@ class ConsoleView {
       n++;
       stdout.write('$n ');
       for (int j = 0; j < viewModel.boardModel.width; j++) {
+        //wall
         if (j == 0 ||
             j == viewModel.boardModel.width - 1 ||
             i == 0 ||
@@ -20,7 +21,7 @@ class ConsoleView {
           stdout.write('#');
           continue;
         }
-
+        // snake - head + body
         if (viewModel.snakeModel.body.any(
           (point) => point.x == j && point.y == i,
         )) {
@@ -30,16 +31,16 @@ class ConsoleView {
           } else {
             stdout.write('o');
           }
-        } else {
-          stdout.write(' ');
+          continue;
         }
 
-        // if (viewModel.snakeModel.head.x == j &&
-        //     viewModel.snakeModel.head.y == i) {
-        //   stdout.write('O');
-        // } else {
-        //   stdout.write(' ');
-        // }
+        //food
+        if (viewModel.foodModel.position.x == j &&
+            viewModel.foodModel.position.y == i) {
+          stdout.write('*');
+          continue;
+        }
+        stdout.write(' ');
       }
       stdout.writeln();
     }

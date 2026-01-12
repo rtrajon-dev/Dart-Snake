@@ -1,6 +1,7 @@
 // Provider depends on other Providers
 
 import '../model/board_model.dart';
+import '../model/food_model.dart';
 import '../model/point_model.dart';
 import '../model/snake_model.dart';
 import '../view/console_view.dart';
@@ -20,10 +21,15 @@ final snakeProvider = Provider<SnakeModel>(
   ]),
 );
 
+final foodProvider = Provider<FoodModel>(
+  () => FoodModel(const PointModel(x: 7, y: 3)),
+);
+
 final snakeViewProvider = Provider<SnakeViewModel>(
   () => SnakeViewModel(
     boardModel: boardProvider.get(),
     snakeModel: snakeProvider.get(),
+    foodModel: foodProvider.get(),
   ),
 );
 

@@ -2,49 +2,85 @@
 // viewModel as a state owner
 // depends on BoaSnakeModel
 
+import 'dart:math';
+
 import '../model/board_model.dart';
 import '../model/direction_model.dart';
+import '../model/food_model.dart';
 import '../model/point_model.dart';
 import '../model/snake_model.dart';
 
 class SnakeViewModel {
-  BoardModel boardModel;
-  SnakeModel snakeModel;
+  final BoardModel boardModel;
+  final SnakeModel snakeModel;
+  final FoodModel foodModel;
 
   bool _gameOver = false;
   bool get isGameOver => _gameOver;
+  bool _shouldGrow = false;
 
-  SnakeViewModel({required this.boardModel, required this.snakeModel});
+  SnakeViewModel({
+    required this.boardModel,
+    required this.snakeModel,
+    required this.foodModel,
+  });
 
   void moveSnake(DirectionModel direction) {
     if (isGameOver) return;
 
-    final current = snakeModel.head;
-    PointModel next;
+    final currentHead = snakeModel.head;
+    late PointModel next;
 
     switch (direction) {
       case DirectionModel.up:
-        next = PointModel(x: current.x, y: current.y - 1);
+        next = PointModel(x: currentHead.x, y: currentHead.y - 1);
         break;
       case DirectionModel.down:
-        next = PointModel(x: current.x, y: current.y + 1);
+        next = PointModel(x: currentHead.x, y: currentHead.y + 1);
         break;
       case DirectionModel.left:
-        next = PointModel(x: current.x - 1, y: current.y);
+        next = PointModel(x: currentHead.x - 1, y: currentHead.y);
         break;
       case DirectionModel.right:
-        next = PointModel(x: current.x + 1, y: current.y);
+        next = PointModel(x: currentHead.x + 1, y: currentHead.y);
         break;
     }
-    // snakeModel.head = next;
+
+    void _spawnFood() {
+      final random = Random();
+      PointModel p;
+
+      do {
+        p = PointModel(
+          x: random.nextInt(boardModel.width - 2) + 1,
+          y: random.nextInt(boardModel.height - 2) + 1,
+        );
+      } while (snakeModel.body.any((b) => b.x == p.x && b.y == p.y));
+      foodModel.position = p;
+    }
 
     //boundary check
     if (!boardModel.containsPoint(next.x, next.y)) {
       _gameOver = true;
       return;
     }
+    //self collision
+    if (snakeModel.body.any((p) => p.x == next.x && p.y == next.y)) {
+      _gameOver = true;
+    }
+
+    // Food eat
+    if (next.x == foodModel.position.x && next.y == foodModel.position.y) {
+      _shouldGrow = true;
+      _spawnFood();
+    }
 
     snakeModel.body.insert(0, next);
-    snakeModel.body.removeLast();
+
+    if (!_shouldGrow) {
+      snakeModel.body.removeLast();
+    } else {
+      _shouldGrow = false;
+    }
   }
 }
