@@ -9,6 +9,7 @@ class ConsoleView {
   void renderBoard(SnakeViewModel viewModel) {
     // stdout.write('\x1B[2J\x1B[0;0H'); // Clear console
     int n = 0;
+
     for (int i = 0; i < viewModel.boardModel.height; i++) {
       n++;
       stdout.write('$n ');
@@ -44,5 +45,6 @@ class ConsoleView {
       }
       stdout.writeln();
     }
+    stdout.writeln('Score: ${viewModel.scoreModel.score}');
   }
 }

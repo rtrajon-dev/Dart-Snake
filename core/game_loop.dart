@@ -1,22 +1,26 @@
 import 'dart:async';
-
-import '../model/direction_model.dart';
+import '../lib/input/input_controller.dart';
 import '../viewmodel/snake_view_model.dart';
 
 class GameLoop {
   final SnakeViewModel viewModel;
   final void Function(SnakeViewModel) renderView;
+  final InputController input;
+
   Timer? _timer;
 
-  GameLoop({required this.viewModel, required this.renderView});
+  GameLoop({
+    required this.viewModel,
+    required this.input,
+    required this.renderView,
+  });
 
   void start() {
     if (_timer != null) return; // already running
-    _timer = Timer.periodic(const Duration(seconds: 2), (_) {
-      tick();
-      // viewModel.moveSnake(DirectionModel.right);
-      // renderView(viewModel);
-    });
+
+    input.start();
+
+    _timer = Timer.periodic(const Duration(seconds: 2), (_) => tick());
   }
 
   void tick() {
@@ -25,7 +29,8 @@ class GameLoop {
       print('Game over');
       return;
     }
-    viewModel.moveSnake(DirectionModel.right);
+    // viewModel.moveSnake(DirectionModel.right);
+    viewModel.moveSnake(input.direction);
 
     if (viewModel.isGameOver) {
       stop();
@@ -37,5 +42,6 @@ class GameLoop {
 
   void stop() {
     _timer?.cancel();
+    input.dispose();
   }
 }

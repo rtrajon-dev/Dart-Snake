@@ -8,12 +8,14 @@ import '../model/board_model.dart';
 import '../model/direction_model.dart';
 import '../model/food_model.dart';
 import '../model/point_model.dart';
+import '../model/score_model.dart';
 import '../model/snake_model.dart';
 
 class SnakeViewModel {
   final BoardModel boardModel;
   final SnakeModel snakeModel;
   final FoodModel foodModel;
+  final ScoreModel scoreModel;
 
   bool _gameOver = false;
   bool get isGameOver => _gameOver;
@@ -23,6 +25,7 @@ class SnakeViewModel {
     required this.boardModel,
     required this.snakeModel,
     required this.foodModel,
+    required this.scoreModel,
   });
 
   void moveSnake(DirectionModel direction) {
@@ -72,6 +75,7 @@ class SnakeViewModel {
     // Food eat
     if (next.x == foodModel.position.x && next.y == foodModel.position.y) {
       _shouldGrow = true;
+      scoreModel.score += 10;
       _spawnFood();
     }
 
